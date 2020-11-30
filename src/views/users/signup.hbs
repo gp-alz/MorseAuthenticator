@@ -1,0 +1,121 @@
+<div class="container pt-5 mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto ">
+      
+      <div class="card shadow-sm mt-7 mb-5 pb-3 addradius text-center">  
+        <div class="card-body px-5">
+          <h1 class="h3 py-3">
+            Crear una cuenta
+          </h1>
+
+
+      
+          <form action="/users/signup" method="POST">
+          <div class="form-group">
+              <p class="text-left mb-1">CEDULA</p>
+              <input type="text" class="form-control shadow-sm addradius" name="ced" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">NOMBRES</p>
+              <input type="text" class="form-control shadow-sm addradius" name="name" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">APELLIDOS</p>
+              <input type="text" class="form-control shadow-sm addradius" name="lastname" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">USUARIO</p>
+              <input type="text" class="form-control shadow-sm addradius" name="user" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CORREO ELECTRÓNICO</p>
+              <input type="email" class="form-control shadow-sm addradius" name="email"  value="{{email}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CONTRASEÑA</p>
+              <input type="password" class="form-control shadow-sm addradius" name="password"  value="{{password}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CONFIRMAR CONTRASEÑA</p>
+              <input type="password" class="form-control shadow-sm addradius" name="confirm_password"  value="{{confirm_password}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">FECHA DE NACIMIENTO</p>
+              <input type="text" class="form-control shadow-sm addradius" name="birth" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">PROVINCIA</p>
+              <input type="text" class="form-control shadow-sm addradius" name="prov" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CIUDAD</p>
+              <input type="text" class="form-control shadow-sm addradius" name="city" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CALLE PRINCIPAL</p>
+              <input type="text" class="form-control shadow-sm addradius" name="mst" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CALLE SECUNDARIA</p>
+              <input type="text" class="form-control shadow-sm addradius" name="sst" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 1</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                </div>
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                  <option selected>Seleccione...</option>
+                  <option value="1">Nombre de tu canción favorita</option>
+                  <option value="2">Primer nombre de tu madre</option>
+                  <option value="3">Nombre de tu color favorito</option>
+                </select>
+              </div>
+              <input type="text" class="form-control shadow-sm addradius" name="pr1" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 2</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                </div>
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                  <option selected>Seleccione...</option>
+                  <option value="1">Nombre de tu comida favorita</option>
+                  <option value="2">Segundo nombre de tu padre</option>
+                  <option value="3">Tu apodo de la infancia</option>
+                </select>
+              </div>
+              <input type="text" class="form-control shadow-sm addradius" name="pr2" value="{{name}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 3</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                </div>
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                  <option selected>Seleccione...</option>
+                  <option value="1">Nombre de tu primera mascota</option>
+                  <option value="2">Nombre de tu mejor amigo de la infancia</option>
+                  <option value="3">Nombre de tu primer amor</option>
+                </select>
+              </div>
+              <input type="text" class="form-control shadow-sm addradius" name="pr3" value="{{name}}">
+            </div>
+            <button class="btn yButton shadow-sm btn-lg btn-block mt-5">
+              Continuar
+            </button>
+            <label class="mt-4">
+            <a class="link h5" href="/users/signin">¿Ya tienes una cuenta?</a>
+            </label>
+            
+            
+          </form>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

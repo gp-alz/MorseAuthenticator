@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <img src="/img/logo.png" class="rounded-circle" height="35" width="35">
+    <a class="navbar-brand text-white pl-3" href="/">
+     UPS AuthApp
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <ul class="navbar-nav ml-auto">
+        {{#if user}}
+          <a class="nav-link" href="/notes">Mis Notas</a>
+              <a class="nav-link" href="/notes/add">Argegar una Nota</a>
+              <div class="dropdown-divider"></div>
+              <a class="nav-link" href="/users/logout">Cerrar Sesión</a>
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link" href="/users/signin">Iniciar Sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/signup">Registrarse</a>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>

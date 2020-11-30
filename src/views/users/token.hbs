@@ -1,0 +1,456 @@
+<div class="container pt-5 mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-7 mx-auto ">
+
+
+      
+      
+
+
+    <div class="card shadow-sm mt-7 mb-3 pb-3 addradius">  
+        <div class="card-body px-5">
+
+          <h1 class="h3 pt-3 pb-4 text-center">
+            Ingresar token
+          </h1>
+
+            <div class="row">
+            <div class="col-md">
+                 
+
+                <div class="form-group  mb-2">
+                    <p class="text-center mb-1">CÓMO INGRESAR SU TOKEN</p>
+                </div>
+
+                <h1 class="h6 text-center text-justify">
+                    Haga clic sobre el <a href="#panel">panel de ingreso</a> para dibujar lineas y puntos 
+                </h1>
+                <h1 class="h6 text-center text-justify">
+                    Debe ingresar su token una letra a la vez según los <a href="#codigos">códigos de muestra</a>
+                </h1>
+
+            </div>
+            <div class="col-md">
+
+                <div class="form-group  mb-2">
+                    <p class="text-center mb-1">CLICK PARA IR AL PANEL</p>
+                </div>
+                <a href="#panel">
+                  <img src="/img/cursor.PNG" class="centerrr">
+                </a>
+                
+
+            </div>
+            </div>
+
+            
+        </div>
+      </div>
+
+
+
+
+  <div class="card shadow-sm addradius center">  
+      <div class="card-body m-3 text-center">
+        <h1 class="h4 pb-2 text-center" id="codigos">
+            Códigos de muestra
+        </h1>
+        <img src="/img/morse.png" class="centerr" >
+      </div>
+    </div>
+    
+
+   <div class="card shadow-sm addradius mt-3">  
+      <div class="card-body m-3 text-center">
+        <h1 class="h4 pb-0 text-center" id="panel">
+            Panel de ingreso 
+        </h1>
+        <canvas id="myCanvas" width="500" height="300" ></canvas>
+      </div>
+    </div>
+
+    
+    <div class="card shadow-sm addradiust mt-3 mb-0">
+        <div class="card-body pt-3 pb-0">
+          <h4 class="card-title text-center ">
+           Su token: 
+          </h4>
+        </div>
+    </div>
+
+    
+    <div class="card shadow-sm addradiusb mb-5">
+        <div class="card-header py-4">
+          <h3 id="code" class="card-title text-center ">
+            
+          </h3>
+        </div>
+        <div class="card-body px-5">
+          
+          <div class="text-center">
+          <label class="mt-1">
+          <a class="link h5 " onclick="stopMorse()">Reiniciar panel de ingreso</a>
+          </div>
+          
+
+          <a class="btn yButton shadow-sm addradius btn-lg btn-block mt-3" href="../notes">
+              Ingresar
+            </a>
+
+          <div class="text-center">
+          <label class="mt-4">
+          <a class="link h5 " href="/users/signup">¿Olvidaste tu token?</a>
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+
+  <script>
+    /////////////////////////////
+    //////////////////
+    //////////
+
+    var canvas = document.getElementById("myCanvas");
+
+    fitToContainer(canvas);
+
+    function fitToContainer(canvas){
+
+      canvas.style.width = window.innerWidth* 0.65;
+      canvas.style.height= window.innerHeight*0.23;
+      canvas.width  = window.innerWidth* 0.36;
+      canvas.height = window.innerHeight*0.23;
+    }
+
+
+    var ctx = canvas.getContext("2d");
+    var x = canvas.width;
+    var y = canvas.height;
+    var touch = false;
+    var dx = 2;
+   
+
+    //create interval
+    var morse = setInterval(draw, 15);
+    
+    var saving = setInterval(save, 30);
+    
+    //save  shapes
+    var SavedCircles = [];
+
+    //shape obj
+    var circleInfo = function()
+    {
+      this.posx = x-50;
+      this.posy = y/1.5;
+      this.rad = y*0.05;
+    }
+
+    function save() {
+      if(touch){
+        circle = new circleInfo();
+        SavedCircles.push(circle);
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //create initial line
+      drawLine();
+        for(var i=0;i<SavedCircles.length;i++)
+        {
+          
+          ctx.beginPath();
+          ctx.arc(SavedCircles[i].posx, SavedCircles[i].posy, SavedCircles[i].rad, 0, Math.PI*2);
+          ctx.fillStyle = "#000000";
+          ctx.fill();
+          ctx.closePath();
+          SavedCircles[i].posx -= dx;
+
+        }
+
+        if(touch){
+          ctx.beginPath();
+          ctx.fillRect(x-54, y/6,7,50);  
+          ctx.closePath();
+
+          var R = 30;
+          var ap = (Math.PI / 180) * 60;
+          var af = (Math.PI / 180) * 120;
+          // Las coordenadas del punto de partida en la circunferencia
+          var Xap = x-50+R * Math.cos(ap);
+          var Yap = (y/2)+25+R * Math.sin(ap);
+          // estilos
+          ctx.fillStyle = "#0095DD";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 5;
+          // empezamos a dibujar
+          ctx.beginPath();
+          ctx.moveTo(x-50,(y/2)+25);
+          ctx.lineTo(Xap-29,Yap-50);
+          ctx.arc(x-50,(y/2)+25,R,-af,-ap);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#0095DD";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 5;
+          ctx.arc(x-51, y/6, y*0.07, 0, Math.PI*2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.closePath();
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(x-63, y/4,25,7);  
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(x-67.5, y/2.4,35,7);  
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#0095DD";
+          ctx.closePath();
+          
+        }else{
+
+          ctx.beginPath();
+          ctx.fillRect(x-54, y/7,7,50);  
+          ctx.closePath();
+
+          var R = 30;
+          var ap = (Math.PI / 180) * 60;
+          var af = (Math.PI / 180) * 120;
+          // Las coordenadas del punto de partida en la circunferencia
+          var Xap = x-50+R * Math.cos(ap);
+          var Yap = (y/2)+15+R * Math.sin(ap);
+          // estilos
+          ctx.fillStyle = "#0095DD";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 5;
+          // empezamos a dibujar
+          ctx.beginPath();
+          ctx.moveTo(x-50,(y/2)+15);
+          ctx.lineTo(Xap-29,Yap-50);
+          ctx.arc(x-50,(y/2)+15,R,-af,-ap);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+
+          ctx.beginPath();
+          ctx.fillStyle = "#0095DD";
+          ctx.strokeStyle = "#000000";
+          ctx.lineWidth = 5;
+          ctx.arc(x-51, y/8, y*0.07, 0, Math.PI*2);
+          ctx.closePath();
+          ctx.fill();
+          ctx.closePath();
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(x-63, y/4.8,25,7);  
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(x-67.5, y/2.8,35,7);  
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.fillStyle = "#000000";
+          ctx.closePath();
+        }
+    }
+
+    function drawLine() {
+        //create line
+        ctx.fillRect(0,y/1.5,1000,3);  
+    }
+
+    
+    canvas.addEventListener("mousedown", function(){
+      touch = true;
+    })
+
+    canvas.addEventListener("mouseup", function(){
+      touch = false;
+    })
+
+    
+    canvas.addEventListener("touchstart", function(){
+      touch = true;
+    })
+
+    canvas.addEventListener("touchend", function(){
+      touch = false;
+    })
+    
+    function stopMorse(){
+      SavedCircles = [];
+      document.getElementById("code").innerHTML = "";
+      //clearInterval(morse)
+      
+    }
+    
+    window.onresize = function(){ location.reload(); }
+
+
+    /////////////////////////
+    ///////////////////////////////////
+    /////////////////
+
+console.log("initialized");
+    
+  
+var morse_code_events = (function( element, timer_amount, threshold ){
+
+    console.log("initialized2");
+	var morse_code = {
+		"01": "A",
+		"1000": "B",
+		"1010": "C",
+		"100": "D",
+		"0": "E",
+		"0010": "F",
+		"110": "G",
+		"0000": "H",
+		"00": "I",
+		"0111": "J",
+		"101": "K",
+		"0100": "L",
+		"11": "M",
+		"10": "N",
+		"111": "O",
+		"0110": "P",
+		"1101": "Q",
+		"010": "R",
+		"000": "S",
+		"1": "T",
+		"001": "U",
+		"0001": "V",
+		"011": "W",
+		"1001": "X",
+		"1011": "Y",
+		"1100": "Z",
+    "000000": " ",
+    "01111": "1",
+    "00111": "2",
+    "00011": "3",
+    "00001": "4",
+    "00000": "5",
+    "10000": "6",
+    "11000": "7",
+    "11100": "8",
+    "11110": "9",
+    "11111": "0",
+    "00000000": "Autor: Paúl Álvarez"
+
+	}
+
+	element = element || document;
+	timer_amount = timer_amount || 800;
+	threshold = threshold || 2.5;
+
+	var text = [];
+	var character = [];
+	var press = null;
+	var timer = null;
+	var touching = false;
+
+	// create DOM event
+
+	// prototype
+	var Morse_decipher = function(){
+		this.start = 0;
+		this.end = 0;
+	};
+	Morse_decipher.prototype.get_start = function() {
+		clearTimeout(timer);
+		this.start = Date.now() / 100;
+	};
+	Morse_decipher.prototype.get_end = function() {
+		this.end = Date.now() / 100;
+		start_timer();
+		return this.end - this.start > threshold ? 1 : 0;
+	};
+
+
+	function start_timer(){
+		timer = setTimeout(deciper_character,timer_amount);
+	}
+
+	function deciper_character(){
+		text = morse_code[character.join("")];
+
+		// trigger event
+		if(text){
+			var morse_event = new CustomEvent("morse_input", {detail: text});
+			document.dispatchEvent(morse_event);
+			character = [];
+		}
+	}
+
+	function start(){
+		press = new Morse_decipher();
+		press.get_start()
+	}
+
+	function end(){
+		press = press.get_end();
+		character.push(press)
+	}
+
+	element.addEventListener("touchstart", function(){
+		touching = true;
+		start()
+	})
+
+	element.addEventListener("touchend", function(){
+		touching = true;
+		end()
+	})
+
+	element.addEventListener("mousedown", function(){
+		if(!touching){
+			start()
+		}
+	})
+
+	element.addEventListener("mouseup", function(){
+		if(!touching){
+			end()
+		}
+		touching = false;
+	})
+
+});
+
+
+
+    // initalizing events
+    morse_code_events(canvas);
+
+
+	  // use event on document to trigger your code.
+    // letter inputted will be a key in the event object
+    document.addEventListener("morse_input", function(e){
+	    console.log(e.detail);
+      document.getElementById("code").innerHTML = document.getElementById("code").innerHTML+e.detail;;
+    });
+
+  </script> 
+
+</div>
+</div>
+</div>

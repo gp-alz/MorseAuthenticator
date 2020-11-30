@@ -1,0 +1,120 @@
+@font-face {
+  font-family: 'Whitney Semibold'; 
+  src: url('../fonts/whitney-semibold.ttf');
+}
+
+@font-face {
+  font-family: 'Whitney Bold'; 
+  src: url('../fonts/whitney-bold.ttf');
+}
+
+body {
+  background: #f5f6fa;
+  font-family: 'Whitney Bold', sans-serif;
+}
+
+.index {
+  width: 98vw;
+  height: 100vh;
+}
+
+.navbar {
+background-color: #353A3F;
+color: white;
+
+
+}
+.nav-link {
+  color: #fff !important;
+}
+
+.link {
+  color: rgb(0, 119, 255) !important;
+}
+
+.masthead {
+  color: white;
+  min-height: 30rem;
+  width: 100.9%;
+  height: 100%;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  background: url('/img/background.jpeg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.masthead h1 {
+  font-size: 4rem;
+  margin: 0;
+  padding: 0;
+}
+
+.addradius {
+  border-radius: 8px !important;
+  border-top-left-radius:  0px !important;
+}
+
+.addradiusl {
+  border-top-left-radius:  0px !important;
+  border-top-right-radius:  0px !important;
+  border-bottom-right-radius:  0px !important;
+  border-bottom-left-radius: 8px !important;
+}
+.addradiusr {
+  border-radius: 8px !important;
+  border-top-left-radius:  0px !important;
+  border-bottom-left-radius:  0px !important;
+}
+
+.addradiust {
+  border-top-left-radius:  0px !important;
+  border-top-right-radius:  8px !important;
+  border-bottom-right-radius:  0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.addradiusb {
+  border-top-left-radius:  0px !important;
+  border-top-right-radius:  0px !important;
+  border-bottom-right-radius:  8px !important;
+  border-bottom-left-radius: 8px !important;
+}
+
+.yButton{
+  background-color: #ffd000;
+}
+
+
+button {
+  border-radius: 5px !important;
+}
+
+
+footer {
+background-color: #353A3F;
+color: white;
+width: 100%;
+bottom:0px;
+text-align: center;
+margin-bottom: 0px;
+padding-bottom: 1px;
+}
+
+.centerr {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%; 
+}
+
+.centerrr {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%; 
+  height: 80%;
+  border-radius: 50%;
+  border: 6px solid rgb(0, 0, 0);
+}
