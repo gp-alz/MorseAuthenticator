@@ -122,12 +122,49 @@ usersCtrl.singup = async (req, res) => {
       res.redirect("/users/signup");
     } else {
       // Saving a New User
+
      //ced, name, lastname, user, email, password, confirm_password, 
     //year, day, month, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3
       var birth = day+month+year;
       var token = 'WLCME';
       const newUser = new User({ ced, name, lastname, user, email, password, 
         birth, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3, token});
+=======
+     
+      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var token = String.fromCharCode(t1, t2, t3, t4);
+      var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'haxfrey@gmail.com',
+            pass: 'thehaxpass1'
+        }
+      });
+
+
+      let message = {
+        from: 'haxfrey@gmail.com',
+        to: email,
+        subject: "signup successful",
+        text: token,
+      };
+
+      transporter
+        .sendMail(message)
+        .then(() => {
+          return res
+            .status(200)
+            .json({ msg: "you should receive an email from us" });
+        })
+        .catch((error) => console.error(error));
+      
+   
+
+      const newUser = new User({ name, email, password });
+
       newUser.password = await newUser.encryptPassword(password);
       await newUser.save();
       req.flash("success_msg", "Registro exitoso.");
@@ -168,8 +205,6 @@ usersCtrl.logout = (req, res) => {
 
   var token = String.fromCharCode(t1, t2, t3, t4);
 
-  console.log(token);
-  /*
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -180,7 +215,7 @@ usersCtrl.logout = (req, res) => {
 
   let message = {
     from: 'haxfrey@gmail.com',
-    to: 'ormax563jj@gmail.com',
+    to: req.user.email,
     subject: "logout successful",
     text: token,
   };
@@ -193,7 +228,6 @@ usersCtrl.logout = (req, res) => {
         .json({ msg: "you should receive an email from us" });
   }).catch((error) => console.error(error));
   
-  */
 
   req.logout();
   req.flash("success_msg", "Has cerrado sesión con exito.");
