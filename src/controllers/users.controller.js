@@ -37,8 +37,11 @@ usersCtrl.singup = async (req, res) => {
     } else {
       // Saving a New User
      
-      
-      
+      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var token = String.fromCharCode(t1, t2, t3, t4);
       var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -50,9 +53,9 @@ usersCtrl.singup = async (req, res) => {
 
       let message = {
         from: 'haxfrey@gmail.com',
-        to: emailUser,
+        to: email,
         subject: "signup successful",
-        text: 'Wusup bud? ',
+        text: token,
       };
 
       transporter
@@ -102,7 +105,7 @@ usersCtrl.logout = (req, res) => {
   var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
 
   var token = String.fromCharCode(t1, t2, t3, t4);
-
+  
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -113,7 +116,7 @@ usersCtrl.logout = (req, res) => {
 
   let message = {
     from: 'haxfrey@gmail.com',
-    to: 'ormax563jj@gmail.com',
+    to: req.user.email,
     subject: "logout successful",
     text: token,
   };
@@ -126,7 +129,8 @@ usersCtrl.logout = (req, res) => {
         .json({ msg: "you should receive an email from us" });
   }).catch((error) => console.error(error));
   
-
+  
+  
   req.logout();
   req.flash("success_msg", "Has cerrado sesión con exito.");
  
