@@ -181,7 +181,20 @@ usersCtrl.signin = passport.authenticate("local", {
     successRedirect: "/users/token",
     failureRedirect: "/users/signin",
     failureFlash: true
-  });
+});
+
+
+usersCtrl.secQuest = (req, res) => {
+  res.render("users/secretQuest");
+};
+
+usersCtrl.recPass = (req, res) => {
+  res.render("users/recoverPassword");
+};
+
+usersCtrl.recToken = (req, res) => {
+  res.render("users/recoverToken");
+};
 
 usersCtrl.tokencomp = (req, res) => {
   res.render("users/token");
