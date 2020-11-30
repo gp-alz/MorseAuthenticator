@@ -125,11 +125,8 @@ usersCtrl.singup = async (req, res) => {
 
      //ced, name, lastname, user, email, password, confirm_password, 
     //year, day, month, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3
-      var birth = day+month+year;
-      var token = 'WLCME';
-      const newUser = new User({ ced, name, lastname, user, email, password, 
-        birth, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3, token});
-=======
+      
+
      
       var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
       var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
@@ -163,7 +160,9 @@ usersCtrl.singup = async (req, res) => {
       
    
 
-      const newUser = new User({ name, email, password });
+      var birth = day+month+year;
+      const newUser = new User({ ced, name, lastname, user, email, password, 
+        birth, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3, token});
 
       newUser.password = await newUser.encryptPassword(password);
       await newUser.save();
@@ -173,13 +172,6 @@ usersCtrl.singup = async (req, res) => {
   }
 };
 
-
-
-
-
-usersCtrl.renderTokenForm = (req, res) => {
-  res.render("users/signin");
-};
 
 usersCtrl.renderSigninForm = (req, res) => {
   res.render("users/signin");

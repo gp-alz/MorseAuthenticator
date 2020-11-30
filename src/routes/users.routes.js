@@ -18,8 +18,6 @@ router.post("/users/signup", singup);
 
 router.get("/users/signin", renderSigninForm);
 
-router.get("/users/token", renderTokenForm);
-
 router.post("/users/signin", signin);
 
 router.get("/users/logout", logout);
