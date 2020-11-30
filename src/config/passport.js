@@ -9,14 +9,14 @@ passport.use(new LocalStrategy({
   // Match Email's User
   const user = await User.findOne({email: email});
   if (!user) {
-    return done(null, false, { message: 'Email not found.' });
+    return done(null, false, { message: 'Las credenciales son incorrectas.' });
   } else {
     // Match Password's User
     const match = await user.matchPassword(password);
     if(match) {
       return done(null, user);
     } else {
-      return done(null, false, { message: 'Incorrect Password.' });
+      return done(null, false, { message: 'Las credenciales son incorrectas.' });
     }
   }
 }));

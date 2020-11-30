@@ -55,6 +55,11 @@ color: white;
   border-radius: 8px !important;
   border-top-left-radius:  0px !important;
 }
+.addradiusalt {
+  border-radius: 8px !important;
+  width: 50% !important;
+  margin: auto;
+}
 
 .addradiusl {
   border-top-left-radius:  0px !important;
