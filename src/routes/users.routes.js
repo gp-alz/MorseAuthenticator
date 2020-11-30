@@ -1,9 +1,11 @@
 const router = require("express").Router();
+var EmailCtrl = require('../morse');
 
 const {
   renderSignUpForm,
   singup,
   renderSigninForm,
+  renderTokenForm,
   signin,
   tokencomp,
   logout
@@ -16,13 +18,13 @@ router.post("/users/signup", singup);
 
 router.get("/users/signin", renderSigninForm);
 
+router.get("/users/token", renderTokenForm);
+
 router.post("/users/signin", signin);
 
 router.get("/users/logout", logout);
 
 router.get("/users/token", tokencomp);
-
-var EmailCtrl = require('../morse');
 
 //email route
 router.post('/email', function(req,res){

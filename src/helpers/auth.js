@@ -4,7 +4,7 @@ helpers.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  req.flash('error_msg', 'Porfavor, Inicie sesión.');
+  req.flash('error_msg', 'Porfavor inicie sesión.');
   res.redirect('/users/signin');
 };
 

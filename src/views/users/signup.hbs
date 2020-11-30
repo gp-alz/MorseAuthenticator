@@ -7,13 +7,10 @@
           <h1 class="h3 py-3">
             Crear una cuenta
           </h1>
-
-
-      
           <form action="/users/signup" method="POST">
           <div class="form-group">
               <p class="text-left mb-1">CEDULA</p>
-              <input type="text" class="form-control shadow-sm addradius" name="ced" value="{{name}}">
+              <input type="number" class="form-control shadow-sm addradius" name="ced" value="{{ced}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">NOMBRES</p>
@@ -21,11 +18,11 @@
             </div>
             <div class="form-group">
               <p class="text-left mb-1">APELLIDOS</p>
-              <input type="text" class="form-control shadow-sm addradius" name="lastname" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="lastname" value="{{lastname}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">USUARIO</p>
-              <input type="text" class="form-control shadow-sm addradius" name="user" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="user" value="{{user}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">CORREO ELECTRÓNICO</p>
@@ -39,70 +36,107 @@
               <p class="text-left mb-1">CONFIRMAR CONTRASEÑA</p>
               <input type="password" class="form-control shadow-sm addradius" name="confirm_password"  value="{{confirm_password}}">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-0">
               <p class="text-left mb-1">FECHA DE NACIMIENTO</p>
-              <input type="text" class="form-control shadow-sm addradius" name="birth" value="{{name}}">
+              <div class="row">
+                <div class="col-md ">
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text shadow-sm addradiusl" >Año</label>
+                      </div>
+                      <select class="custom-select shadow-sm addradiusr"   id="selectYear" name="year" onchange="monthFunction()">
+                        <option selected>...</option>
+                      </select>
+                    </div>
+
+                </div>
+                <div class="col-md">
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text shadow-sm addradiusl" >Mes</label>
+                      </div>
+                      <select class="custom-select shadow-sm addradiusr"  id="selectMonth" name="month"  onchange="monthFunction()">
+                        <option selected>...</option>
+                      </select>
+                    </div>
+
+                </div>
+                <div class="col-md">
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text shadow-sm addradiusl" >Día</label>
+                      </div>
+                      <select class="custom-select shadow-sm addradiusr"   id="selectDay" name="day" >
+                        <option selected>...</option>
+                      </select>
+                    </div>
+
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <p class="text-left mb-1">PROVINCIA</p>
-              <input type="text" class="form-control shadow-sm addradius" name="prov" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="prov" value="{{prov}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">CIUDAD</p>
-              <input type="text" class="form-control shadow-sm addradius" name="city" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="city" value="{{city}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">CALLE PRINCIPAL</p>
-              <input type="text" class="form-control shadow-sm addradius" name="mst" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="mst" value="{{mst}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">CALLE SECUNDARIA</p>
-              <input type="text" class="form-control shadow-sm addradius" name="sst" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="sst" value="{{sst}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 1</p>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                  <label class="input-group-text shadow-sm addradiusl" >Opciones</label>
                 </div>
-                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01" name="pr1">
                   <option selected>Seleccione...</option>
                   <option value="1">Nombre de tu canción favorita</option>
                   <option value="2">Primer nombre de tu madre</option>
                   <option value="3">Nombre de tu color favorito</option>
                 </select>
               </div>
-              <input type="text" class="form-control shadow-sm addradius" name="pr1" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="r1" value="{{r1}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 2</p>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                  <label class="input-group-text shadow-sm addradiusl" >Opciones</label>
                 </div>
-                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01" name="pr2">
                   <option selected>Seleccione...</option>
                   <option value="1">Nombre de tu comida favorita</option>
                   <option value="2">Segundo nombre de tu padre</option>
                   <option value="3">Tu apodo de la infancia</option>
                 </select>
               </div>
-              <input type="text" class="form-control shadow-sm addradius" name="pr2" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="r2" value="{{r2}}">
             </div>
             <div class="form-group">
               <p class="text-left mb-1">PREGUNTA DE SEGURIDAD 3</p>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <label class="input-group-text shadow-sm addradiusl" for="inputGroupSelect01">Opciones</label>
+                  <label class="input-group-text shadow-sm addradiusl" >Opciones</label>
                 </div>
-                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01">
+                <select class="custom-select shadow-sm addradiusr" id="inputGroupSelect01" name="pr3">
                   <option selected>Seleccione...</option>
                   <option value="1">Nombre de tu primera mascota</option>
                   <option value="2">Nombre de tu mejor amigo de la infancia</option>
                   <option value="3">Nombre de tu primer amor</option>
                 </select>
               </div>
-              <input type="text" class="form-control shadow-sm addradius" name="pr3" value="{{name}}">
+              <input type="text" class="form-control shadow-sm addradius" name="r3" value="{{r3}}">
             </div>
             <button class="btn yButton shadow-sm btn-lg btn-block mt-5">
               Continuar
@@ -119,3 +153,118 @@
     </div>
   </div>
 </div>
+
+<script>
+
+  //Fill years
+  var select = document.getElementById("selectYear");
+  var year = 2017
+  for(var i = 0; i < 125; i++) {
+      var el = document.createElement("option");
+      el.textContent = (year-i).toString();
+      el.value = (year-i).toString();
+
+      select.appendChild(el);
+  }
+
+  //Fill months
+  var select2 = document.getElementById("selectMonth");
+  for(var i = 1; i < 13; i++) {
+      var el = document.createElement("option");
+      el.textContent = (i).toString();
+      el.value = (i).toString();
+      select2.appendChild(el);
+  }
+
+  //Calculate and populate day based on year and month when month field change
+  function monthFunction(){
+    var y = document.getElementById("selectYear").value;
+    var m = document.getElementById("selectMonth").value;
+    if(y != '...'){
+      if(m != '...'){
+        var bi = false;;
+        var days;
+        
+
+        //document.writeln( initYear + ' Es bisiesto. ');
+        if (((y % 4 == 0) && (y % 100 != 0 )) || (y % 400 == 0)){
+          bi = true;
+        }else{
+          bi = false;
+        }
+
+        
+        if(m == '1'){
+          days = 31
+        }else{
+          if(m == '2'){
+            if(bi){
+              days = 29;
+            }else{
+              days = 28;
+            }
+          }else{
+            if(m == '3'){
+              days = 31
+            }else{
+              if(m == '4'){
+                days = 30
+              }else{
+                if(m == '5'){
+                  days = 31
+                }else{
+                  if(m == '6'){
+                    days = 30
+                  }else{
+                    if(m == '7'){
+                      days = 31
+                    }else{
+                      if(m == '8'){
+                        days = 31
+                      }else{
+                        if(m == '9'){
+                          days = 30
+                        }else{
+                          if(m == '10'){
+                            days = 31
+                          }else{
+                            if(m == '11'){
+                              days = 30
+                            }else{
+                              if(m == '12'){
+                                days = 31
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        var select3 = document.getElementById("selectDay");
+
+        select3.innerText = null;
+        
+        var elx = document.createElement("option");
+        elx.textContent = '...';
+        elx.value = '...';
+        select3.appendChild(elx);
+          
+        for(var i = 1; i <= days; i++) {
+          var el = document.createElement("option");
+          el.textContent = (i).toString();
+          el.value = (i).toString();
+          select3.appendChild(el);
+        }
+
+      }
+    }
+
+  }
+
+</script>
