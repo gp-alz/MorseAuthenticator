@@ -10,7 +10,8 @@ const {
   recPass,
   recToken,
   tokencomp,
-  logout
+  logout,
+  recoverToken
 } = require("../controllers/users.controller");
 
 //auh
@@ -22,7 +23,7 @@ router.get("/users/signup", renderSignUpForm);
 router.post("/users/signup", singup);
 
 router.get("/users/signin", renderSigninForm);
-
+router.post("/users/signinn", recoverToken);
 router.post("/users/signin", signin);
 
 router.get("/users/logout", logout);
