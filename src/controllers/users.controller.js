@@ -128,10 +128,10 @@ usersCtrl.singup = async (req, res) => {
       
 
      
-      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t1 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+      var t2 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+      var t3 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+      var t4 = Math.floor(Math.random() * (90 -65 + 1) + 65);
       var token = String.fromCharCode(t1, t2, t3, t4);
       var transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -191,19 +191,13 @@ usersCtrl.signin = (req, res) => {
 
 
 usersCtrl.secQuest = (req, res) => {
-
-
 const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
-
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
-
 var cb;
 const  inputmail  = req.body.email;
-
-
 mongoose.connection.db.collection('users', function(err, collection){
   collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
     if(err) throw res.redirect("/users/signin");
@@ -211,12 +205,12 @@ mongoose.connection.db.collection('users', function(err, collection){
     var number = Math.floor(Math.random() * 3) + 1;
     var expresion = 'result[0].pr' + number.toString();
    
-    res.render("users/secretQuest", {pregunta: eval(expresion)});
-    
+    res.render("users/secretQuest", {pregunta: eval(expresion)}); 
   });
 });
-
 }
+
+
 usersCtrl.recPass = (req, res) => {
   res.render("users/recoverPassword");
 };
@@ -233,13 +227,15 @@ usersCtrl.tokencomp = passport.authenticate("local", {
   failureFlash: true
 });
 
-usersCtrl.logout = (req, res) => {
 
 
-  var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-  var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-  var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-  var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+//logout
+usersCtrl.logout = async (req, res) => {
+  
+  var t1 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+  var t2 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+  var t3 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+  var t4 = Math.floor(Math.random() * (90 -65 + 1) + 65);
 
   var token = String.fromCharCode(t1, t2, t3, t4);
 
@@ -266,11 +262,31 @@ usersCtrl.logout = (req, res) => {
         .json({ msg: "Email de autenticación" });
   }).catch((error) => console.error(error));
   
+  const  inputmail  = req.user.email;
+
+  console.log('asdasd: '+inputmail);
+
+  const emailUser = await User.findOne({ email: inputmail });
+  
+  console.log('sdasdads: ',emailUser);
+
+  const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+    mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+  mongoose.connection.db.collection('users',function(err,collection){
+    ({ _id: emailUser._id}, {$set:{"token": token}});
+    collection.updateOne({ _id: emailUser._id}, {$set:{"token": token}});
+  });
+  
 
   req.logout();
   req.flash("success_msg", "Has cerrado sesión con exito.");
  
   res.redirect("/users/signin");
 };
+
 
 module.exports = usersCtrl;
