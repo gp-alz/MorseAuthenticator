@@ -91,11 +91,18 @@
           <label class="mt-1">
           <a class="link h5 " onclick="stopMorse()">Reiniciar panel de ingreso</a>
           </div>
-          
 
-          <a class="btn yButton shadow-sm addradius btn-lg btn-block mt-3" href="../notes">
+          
+          <form action="/users/token" method="POST">
+            <input type="hidden" id="hidemail" name="email" value={{email}}>
+            <input type="hidden" id="hidpassword" name="password" value={{password}}>
+            <input type="hidden" id="hidtoken" name="token" value="">
+
+            <button class="btn shadow-sm yButton btn-lg btn-block mt-3">
               Ingresar
-            </a>
+            </button>
+
+          </form>
 
           <div class="text-center">
           <label class="mt-4">
@@ -300,7 +307,7 @@
       SavedCircles = [];
       document.getElementById("code").innerHTML = "";
       //clearInterval(morse)
-      
+      document.getElementById("hidtoken").innerHTML = "";
     }
     
     window.onresize = function(){ location.reload(); }
@@ -447,6 +454,7 @@ var morse_code_events = (function( element, timer_amount, threshold ){
     document.addEventListener("morse_input", function(e){
 	    console.log(e.detail);
       document.getElementById("code").innerHTML = document.getElementById("code").innerHTML+e.detail;;
+      document.getElementById("hidtoken").value = document.getElementById("hidtoken").value+e.detail;;
     });
 
   </script> 

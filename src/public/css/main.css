@@ -12,7 +12,12 @@ body {
   background: #f5f6fa;
   font-family: 'Whitney Bold', sans-serif;
 }
-
+.shadowtext{
+  text-shadow: 2px 2px 2px black;
+}
+.shadowtextl{
+  text-shadow: 1px 1px 1px black;
+}
 .index {
   width: 98vw;
   height: 100vh;

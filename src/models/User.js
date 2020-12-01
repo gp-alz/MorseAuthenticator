@@ -24,8 +24,7 @@ const UserSchema = new Schema({
   token: { type: String, required: true },
 });
 
-//ced, name, lastname, user, email, password, confirm_password, 
-    //birth, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3
+
 
 UserSchema.methods.encryptPassword = async password => {
   const salt = await bcrypt.genSalt(10);

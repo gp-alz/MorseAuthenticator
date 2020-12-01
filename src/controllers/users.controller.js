@@ -136,17 +136,17 @@ usersCtrl.singup = async (req, res) => {
       var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'haxfrey@gmail.com',
-            pass: 'thehaxpass1'
+            user: 'ServicioDeAutenticacion@gmail.com',
+            pass: 'authservice'
         }
       });
 
 
       let message = {
-        from: 'haxfrey@gmail.com',
+        from: 'ServicioDeAutenticacion@gmail.com',
         to: email,
-        subject: "signup successful",
-        text: token,
+        subject: "Se ha registrado con exito",
+        text: 'Su token de acceso es: '+token,
       };
 
       transporter
@@ -154,7 +154,7 @@ usersCtrl.singup = async (req, res) => {
         .then(() => {
           return res
             .status(200)
-            .json({ msg: "you should receive an email from us" });
+            .json({ msg: "Email de Autenticación" });
         })
         .catch((error) => console.error(error));
       
@@ -165,23 +165,29 @@ usersCtrl.singup = async (req, res) => {
         birth, prov, city, mst, sst, pr1, r1, pr2, r2, pr3, r3, token});
 
       newUser.password = await newUser.encryptPassword(password);
-      await newUser.save();
-      req.flash("success_msg", "Registro exitoso.");
+      await newUser.save(); 
+      req.flash("success_msg", "Registro exitoso, Su token de acceso ha sido enviado a su correo electrónico");
       res.redirect("/users/signin");
     }
   }
 };
 
 
+
+
+
 usersCtrl.renderSigninForm = (req, res) => {
-  res.render("users/signin");
+  res.render("users/signin",);
 };
 
-usersCtrl.signin = passport.authenticate("local", {
-    successRedirect: "/users/token",
-    failureRedirect: "/users/signin",
-    failureFlash: true
-});
+
+
+usersCtrl.signin = (req, res) => {
+
+  const { email, password} = req.body;
+  res.render("users/token",  {email, password});
+
+};
 
 
 usersCtrl.secQuest = (req, res) => {
@@ -196,9 +202,13 @@ usersCtrl.recToken = (req, res) => {
   res.render("users/recoverToken");
 };
 
-usersCtrl.tokencomp = (req, res) => {
-  res.render("users/token");
-};
+
+
+usersCtrl.tokencomp = passport.authenticate("local", {
+  successRedirect: "/notes",
+  failureRedirect: "/users/signin",
+  failureFlash: true
+});
 
 usersCtrl.logout = (req, res) => {
 
@@ -213,16 +223,16 @@ usersCtrl.logout = (req, res) => {
   var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'haxfrey@gmail.com',
-        pass: 'thehaxpass1'
+        user: 'ServicioDeAutenticacion@gmail.com',
+        pass: 'authservice'
     }
   });
 
   let message = {
-    from: 'haxfrey@gmail.com',
+    from: 'ServicioDeAutenticacion@gmail.com',
     to: req.user.email,
-    subject: "logout successful",
-    text: token,
+    subject: "Ha cerrado sesión con exito",
+    text: 'Su nuevo token de acceso es: '+token,
   };
 
   transporter
@@ -230,7 +240,7 @@ usersCtrl.logout = (req, res) => {
     .then(() => {
       return res
         .status(200)
-        .json({ msg: "you should receive an email from us" });
+        .json({ msg: "Email de autenticación" });
   }).catch((error) => console.error(error));
   
 

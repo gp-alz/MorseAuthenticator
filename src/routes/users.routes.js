@@ -5,7 +5,6 @@ const {
   renderSignUpForm,
   singup,
   renderSigninForm,
-  renderTokenForm,
   signin,
   secQuest,
   recPass,
@@ -34,7 +33,7 @@ router.get("/users/recoverPassword", recPass);
 
 router.get("/users/recoverToken", recToken);
 
-router.get("/users/token", isAuthenticated, tokencomp); //warning with auth
+router.post("/users/token", tokencomp); 
 
 //email route
 router.post('/email', function(req,res){

@@ -2,9 +2,9 @@
   <div class="row">
     {{#each notes}}
     <div class="col-md-3">
-      <div class="card addradius">
+      <div class="card addradius shadow-sm">
         <div class="card-header">
-          <h4 class="card-title d-flex justify-content-between align-items-center">
+          <h4 class="card-title d-flex justify-content-between  align-items-center">
             {{ title }}
           </h4>
         </div>
@@ -33,23 +33,21 @@
     </div>
     
     {{else}}
-    <div class="card mx-auto w-75 h-75 addradius">
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <p>Aun no tienes ninguna nota.</p>
+    
+    <div class="alert alert-warning alert-dismissible fade show shadow-sm addradiusalt " role="alert">
+      <p>Aun no tienes ninguna nota.</p>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-    </button>
-      </div>
-      <div class="card-body">
-        
-      </div>
+      <span aria-hidden="true">x</span>
+      </button>
     </div>
+      
+    
     
     {{/each}}
   </div>
 
   <div class="m-4 center">
-    <a href="/notes/add" class="btn btn-primary btn-lg addradius">Agregar nota</a>
+    <a href="/notes/add" class="btn btn-primary btn-lg addradius shadow-sm">Agregar nota</a>
     </div>
   
 
