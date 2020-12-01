@@ -12,7 +12,10 @@ const {
   secQuestT,
   tokencomp,
   logout,
-  recoverToken
+  resPass,
+  recoverPass,
+  recoverToken,
+  savePass
 } = require("../controllers/users.controller");
 
 //auh
@@ -24,6 +27,8 @@ router.get("/users/signup", renderSignUpForm);
 router.post("/users/signup", singup);
 
 router.get("/users/signin", renderSigninForm);
+
+router.post("/users/signinnn", recoverPass);
 
 router.post("/users/signinn", recoverToken);
 
@@ -38,6 +43,10 @@ router.post("/users/secretQuestT", secQuestT);
 router.get("/users/recoverPassword", recPass);
 
 router.get("/users/recoverToken", recToken);
+
+router.post("/users/resetPass", resPass);
+
+router.post("/users/savePass", savePass);
 
 router.post("/users/token", tokencomp); 
 

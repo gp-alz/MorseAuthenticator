@@ -15,28 +15,14 @@
           </h1>
 
             <div class="row">
-            <div class="col-md">
-                 
-
-                <div class="form-group  mb-2">
-                    <p class="text-center mb-1">CÓMO INGRESAR SU TOKEN</p>
-                </div>
-
-                <h1 class="h6 text-center text-justify">
-                    Haga clic sobre el <a href="#codigos">panel de ingreso</a> para dibujar lineas y puntos 
-                </h1>
-                <h1 class="h6 text-center text-justify">
-                    Debe ingresar su token una letra a la vez según los <a href="#codigos">códigos de muestra</a>
-                </h1>
-
-            </div>
+            
             <div class="col-md">
 
                 <div class="form-group  mb-2">
                     <p class="text-center mb-1">CLICK PARA IR AL PANEL</p>
                 </div>
                 <a href="#codigos">
-                  <img src="/img/cursor.PNG" class="centerrr">
+                  <img src="/img/cursor.PNG" class="centerrr2">
                 </a>
                 
 
@@ -93,9 +79,8 @@
           </div>
 
           
-          <form action="/users/token" method="POST">
+          <form action="/users/resetPass" method="POST">
             <input type="hidden" id="hidemail" name="email" value={{email}}>
-            <input type="hidden" id="hidpusers/tokenassword" name="password" value={{password}}>
             <input type="hidden" id="hidtoken" name="token" value="">
 
             <button class="btn shadow-sm yButton btn-lg btn-block mt-3">
@@ -117,9 +102,6 @@
 
 
   <script>
-    /////////////////////////////
-    //////////////////
-    //////////
 
     var canvas = document.getElementById("myCanvas");
 

@@ -1,0 +1,41 @@
+<div class="container pt-5 mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto ">
+      
+      <div class="card shadow-sm mt-7 mb-5 pb-3 addradius  ">  
+        <div class="card-body px-5">
+          <h1 class="h3 py-3 text-center">
+            Reiniciar Contraseña
+          </h1>
+
+
+          <form action="/users/savePass" method="POST">
+
+            <div class="form-group">
+              <p class="text-left mb-1">NUEVA CONTRASEÑA</p>
+              <input type="password" class="form-control shadow-sm addradius" name="password"  value="{{password}}">
+            </div>
+            <div class="form-group">
+              <p class="text-left mb-1">CONFIRMAR CONTRASEÑA</p>
+              <input type="password" class="form-control shadow-sm addradius" name="confirm_password"  value="{{confirm_password}}">
+            </div>
+            <input type="hidden" name="email" value="{{email}}">
+            
+            <button class="btn shadow-sm yButton btn-lg btn-block mt-4">
+              Ingresar
+            </button>
+
+
+            <div class="text-center">
+            <label class="mt-4">
+            <a class="link h5 " href="/users/signin">Volver al inicio</a>
+            </label>
+            </div>
+            
+          </form>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

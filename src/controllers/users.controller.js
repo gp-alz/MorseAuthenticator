@@ -27,7 +27,7 @@ usersCtrl.recoverToken = async (req,res) =>{
   }
   //reset field after error render
   if (errors.length > 0) {
-    res.render("users/secretQuest", {
+    res.render("users/secretQuestT", {
       errors,
       answer
     });
@@ -105,6 +105,66 @@ usersCtrl.recoverToken = async (req,res) =>{
 }
 
 
+
+
+//rec PASS
+usersCtrl.recoverPass = async (req,res) =>{
+
+  let errors = [];
+  var email = req.body.email;
+  var answer = req.body.answer; 
+  var number = req.body.number;
+  //errors
+  console.log('email: '+email)
+  var resp = 'r'+number;
+  if (answer == '') {
+    errors.push({ text: "El campo de respuesta está vacío." });
+  }
+  //reset field after error render
+  if (errors.length > 0) {
+    res.render("users/secretQuest", {
+      errors,
+      answer
+    });
+  }else{
+    
+    console.log('email: '+email)
+    const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+
+    mongoose.connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+
+      var query = {};
+      query[resp] = answer;
+    mongoose.connection.db.collection('users', function(err, collection){
+      collection.findOne(query).then(async (result)=>{
+
+        console.log(result);
+      if (result != null){
+        
+        res.render("users/recoToken", {email});
+
+      }else{
+
+        errors.push({ text: "La respuesta ingresada no coincide con nuestros registros" });
+        res.render("users/recoverPassword", {
+          errors,
+          email
+        });
+      }
+        
+      }).catch((err)=>{
+        console.log(err);
+      });
+    });
+  }
+}
+
+
+
+
 usersCtrl.singup = async (req, res) => {
   let errors = [];
   const { ced, name, lastname, user, email, password, confirm_password, 
@@ -136,6 +196,9 @@ usersCtrl.singup = async (req, res) => {
     if (password != confirm_password) {
       errors.push({ text: "Las contraseñas no coinciden." });
     }
+  }
+  if (confirm_password == '') {
+    errors.push({ text: "El campo confirmar contraseña está vacío." });
   }
   if (year == '...') {
     errors.push({ text: "El campo año está vacío." });
@@ -304,7 +367,7 @@ usersCtrl.signin = (req, res) => {
 usersCtrl.secQuest = (req, res) => {
 
   let errors = [];
-  const { email, password } = req.body;
+  const { email} = req.body;
 
   //errors
   
@@ -313,7 +376,7 @@ usersCtrl.secQuest = (req, res) => {
   }
   //reset field after error render
   if (errors.length > 0) {
-    res.render("users/recoverToken", {
+    res.render("users/recoverPassword", {
       errors,
       email
     });
@@ -323,17 +386,32 @@ usersCtrl.secQuest = (req, res) => {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-    var cb;
     const  inputmail  = req.body.email;
-    mongoose.connection.db.collection('users', function(err, collection){
-      collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
-        if(err) throw res.redirect("/users/signin");
-        console.log(result[0].pr1);
-        var number = Math.floor(Math.random() * 3) + 1;
-        var expresion = 'result[0].pr' + number.toString();
+    mongoose.connection.db.collection('users',async function(err, collection){
       
-        res.render("users/secretQuest", {pregunta: eval(expresion), email: inputmail}); 
-      });
+      //test if exist
+      var search = await collection.findOne({email:inputmail});
+      
+
+      if(!search){
+
+        errors.push({ text: "El correo electrónico no existe" });
+        res.render("users/recoverPassword", {
+          errors,
+          email
+        });
+
+      }else{
+        collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
+          if(err) throw res.redirect("/users/signin");
+          var number = Math.floor(Math.random() * 3) + 1;
+          var expresion = 'result[0].pr' + number.toString();
+        
+          res.render("users/secretQuest", {pregunta: eval(expresion), email: inputmail, number}); 
+        });
+      }
+
+
     });
   }
 
@@ -395,14 +473,14 @@ usersCtrl.secQuestT = (req, res) => {
 
 
 usersCtrl.recPass = (req, res) => {
-  res.render("users/recoverPassword");
+  var email = req.body.email;
+  res.render("users/recoverPassword", email);
 };
 
 usersCtrl.recToken = (req, res) => {
   var email = req.body.email;
   res.render("users/recoverToken", {email: email});
 };
-
 
 
 usersCtrl.tokencomp = passport.authenticate("local", {
@@ -412,6 +490,181 @@ usersCtrl.tokencomp = passport.authenticate("local", {
 });
 
 
+
+
+usersCtrl.savePass = async(req, res) => {
+
+
+  let errors = [];
+  const {email, password, confirm_password} = req.body;
+
+  if (password == '') {
+    errors.push({ text: "El campo contraseña está vacío." });
+  }else{
+    if (password != confirm_password) {
+      errors.push({ text: "Las contraseñas no coinciden." });
+    }
+  }
+  if (errors.length > 0) {
+    res.render("users/resetPass", {
+      errors,
+      password, 
+      confirm_password, 
+    });
+  } else {
+
+    
+    const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+    mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });  
+    console.log('email: '+email)
+    mongoose.connection.db.collection('users', function(err, collection){
+    collection.findOne({email: email}).then(async (result)=>{
+      
+      if (result != null){
+        
+        if(result.email == email){
+
+
+          //collection
+          const encriptedPass = new User({password});
+          encriptedPass.password = await encriptedPass.encryptPassword(password);
+          mongoose.connection.db.collection('users',function(err,collection){
+            collection.updateOne({ _id: result._id}, {$set:{"password": encriptedPass.password}});
+          });
+          
+
+
+          var t1 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+          var t2 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+          var t3 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+          var t4 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+
+          var token = String.fromCharCode(t1, t2, t3, t4);
+
+          var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'ServicioDeAutenticacion@gmail.com',
+                pass: 'authservice'
+            }
+          });
+
+          let message = {
+            from: 'ServicioDeAutenticacion@gmail.com',
+            to: req.body.email,
+            subject: "Ha cerrado sesión con exito",
+            text: 'Su nuevo token de acceso es: '+token,
+          };
+
+          transporter
+            .sendMail(message)
+            .then(() => {
+              return res
+                .status(200)
+                .json({ msg: "Email de autenticación" });
+          }).catch((error) => console.error(error));
+          
+          const  inputmail  = req.body.email;
+
+
+          const emailUser = await User.findOne({ email: inputmail });
+          
+
+          const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+            mongoose.connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+          });
+
+          mongoose.connection.db.collection('users',function(err,collection){
+            
+            collection.updateOne({ _id: emailUser._id}, {$set:{"token": token}});
+          });
+  
+
+
+          errors.push({ text: "Su contraseña se ha actualizado con exito" });
+          errors.push({ text: "Su nuevo token ha sido enviado a su correo electrónico" });
+          res.render("users/signin", {
+          errors
+          });
+
+
+
+
+
+        }else{
+          errors.push({ text: "No se ha encontrado al correo" });
+          res.render("users/recoverPassword", {
+          errors,
+          email
+          });
+        }
+
+
+
+
+      }else{
+        errors.push({ text: "No se ha encontrado al usuario." });
+        res.render("users/recoverPassword", {
+          errors,
+          email
+        });
+      }
+    });
+    });
+
+  }
+
+  
+};
+
+
+
+
+//test Token and sent to ResPassPage
+usersCtrl.resPass = (req, res) => {
+
+  var email = req.body.email;
+  var token = req.body.token;
+  let errors = [];
+  console.log('emailasdas: '+email)
+  const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+    mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });  
+  console.log("Email "+email);
+  console.log("Token "+token);
+  mongoose.connection.db.collection('users', function(err, collection){
+    collection.findOne({token: token}).then(async (result)=>{
+      console.log (result.email);
+        console.log (email);
+      console.log(result);
+      if (result != null){
+        
+        if(result.email == email){
+          res.render("users/resetPass", {email: email});
+        }else{
+          errors.push({ text: "El token ingresado no coincide" });
+          res.render("users/recoverPassword", {
+          errors,
+          email
+          });
+        }
+      }else{
+        errors.push({ text: "El token ingresado es incorrecto." });
+        res.render("users/recoverPassword", {
+          errors,
+          email
+        });
+      }
+    });
+  });
+}
 
 //logout
 usersCtrl.logout = async (req, res) => {
@@ -448,11 +701,9 @@ usersCtrl.logout = async (req, res) => {
   
   const  inputmail  = req.user.email;
 
-  console.log('asdasd: '+inputmail);
 
   const emailUser = await User.findOne({ email: inputmail });
   
-  console.log('sdasdads: ',emailUser);
 
   const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
     mongoose.connect(MONGODB_URI, {
@@ -467,7 +718,7 @@ usersCtrl.logout = async (req, res) => {
   
 
   req.logout();
-  req.flash("success_msg", "Has cerrado sesión con exito, tu nuevo token ha sido enviado a tu correo electrónico");
+  req.flash("success_msg", "Ha cerrado sesión con exito, su nuevo token ha sido enviado a su correo electrónico");
  
   res.redirect("/users/signin");
 };
