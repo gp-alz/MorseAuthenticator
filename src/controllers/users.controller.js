@@ -3,7 +3,7 @@ const usersCtrl = {};
 var tokenModule = require('../morse');
 
 const nodemailer = require("nodemailer");
-
+const mongoose = require("mongoose");
 // Models
 const User = require('../models/User');
 
@@ -191,9 +191,32 @@ usersCtrl.signin = (req, res) => {
 
 
 usersCtrl.secQuest = (req, res) => {
-  res.render("users/secretQuest");
-};
 
+
+const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+var cb;
+const  inputmail  = req.body.email;
+
+
+mongoose.connection.db.collection('users', function(err, collection){
+  collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
+    if(err) throw res.redirect("/users/signin");
+    console.log(result[0].pr1);
+    var number = Math.floor(Math.random() * 3) + 1;
+    var expresion = 'result[0].pr' + number.toString();
+   
+    res.render("users/secretQuest", {pregunta: eval(expresion)});
+    
+  });
+});
+
+}
 usersCtrl.recPass = (req, res) => {
   res.render("users/recoverPassword");
 };
