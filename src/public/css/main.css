@@ -13,18 +13,17 @@ body {
   font-family: 'Whitney Bold', sans-serif;
 }
 .shadowtext{
-  text-shadow: 2px 2px 2px black;
+  text-shadow: 0px 0px 5px black;
 }
 .shadowtextl{
-  text-shadow: 1px 1px 1px black;
+  text-shadow: 0px 0px 2px black;
 }
 .index {
-  width: 98vw;
-  height: 100vh;
+  height: 92.7vh;
 }
 
 .navbar {
-background-color: #353A3F;
+background-color: #003b57;
 color: white;
 
 
@@ -40,7 +39,7 @@ color: white;
 .masthead {
   color: white;
   min-height: 30rem;
-  width: 100.9%;
+  width: 100%;
   height: 100%;
   padding-top: 8rem;
   padding-bottom: 8rem;

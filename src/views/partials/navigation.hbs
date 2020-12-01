@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
   <div class="container">
-    <img src="/img/logo.png" class="rounded-circle" height="35" width="35">
-    <a class="navbar-brand text-white pl-3" href="/">
+    <img src="/img/logo.png" class="rounded-circle shadow-sm" height="35" width="35">
+    <a class="navbar-brand text-white pl-3 shadowtextl" href="/">
      UPS AuthApp
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,16 +11,16 @@
       
       <ul class="navbar-nav ml-auto">
         {{#if user}}
-          <a class="nav-link" href="/notes">Mis Notas</a>
-              <a class="nav-link" href="/notes/add">Argegar una Nota</a>
+          <a class="nav-link shadowtextl mx-2" href="/notes">Mis Notas</a>
+              <a class="nav-link shadowtextl mx-2" href="/notes/add">Agregar una Nota</a>
               <div class="dropdown-divider"></div>
-              <a class="nav-link" href="/users/logout">Cerrar Sesión</a>
+              <a class="nav-link shadowtextl mx-2" href="/users/logout">Cerrar Sesión</a>
         {{else}}
           <li class="nav-item">
-            <a class="nav-link" href="/users/signin">Iniciar Sesión</a>
+            <a class="nav-link shadowtextl mx-2" href="/users/signin">Iniciar Sesión</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/signup">Registrarse</a>
+            <a class="nav-link shadowtextl mx-2" href="/users/signup">Registrarse</a>
           </li>
         {{/if}}
       </ul>

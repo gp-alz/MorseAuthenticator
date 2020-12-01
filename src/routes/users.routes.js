@@ -9,6 +9,7 @@ const {
   secQuest,
   recPass,
   recToken,
+  secQuestT,
   tokencomp,
   logout,
   recoverToken
@@ -23,12 +24,16 @@ router.get("/users/signup", renderSignUpForm);
 router.post("/users/signup", singup);
 
 router.get("/users/signin", renderSigninForm);
+
 router.post("/users/signinn", recoverToken);
+
 router.post("/users/signin", signin);
 
 router.get("/users/logout", logout);
 
 router.post("/users/secretQuest", secQuest);
+
+router.post("/users/secretQuestT", secQuestT);
 
 router.get("/users/recoverPassword", recPass);
 

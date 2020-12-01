@@ -14,145 +14,96 @@ usersCtrl.renderSignUpForm = (req, res) => {
   res.render('users/signup');
 };
 
-usersCtrl.recoverToken = (req,res) =>{
-  console.log("Testing ....");
+usersCtrl.recoverToken = async (req,res) =>{
+
+  let errors = [];
   var email = req.body.email;
-  var answer = req.body.answer;
-  const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
-
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-
-
-mongoose.connection.db.collection('users', function(err, collection){
-  collection.findOne({r1:answer}).then((result)=>{
-   if (result != null){
-    
-    var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var token = String.fromCharCode(t1, t2, t3, t4);
-
-    var transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-          user: 'ServicioDeAutenticacion@gmail.com',
-          pass: 'authservice'
-      }
+  var answer = req.body.answer; 
+  var number = req.body.number;
+  //errors
+  var resp = 'r'+number;
+  if (answer == '') {
+    errors.push({ text: "El campo de respuesta está vacío." });
+  }
+  //reset field after error render
+  if (errors.length > 0) {
+    res.render("users/secretQuest", {
+      errors,
+      answer
     });
+  }else{
   
-    let message = {
-      from: 'ServicioDeAutenticacion@gmail.com',
-      to: req.body.email,
-      subject: "Recuperación de Token",
-      text: 'Su nuevo token de acceso es: '+token,
-    };
-  
-    transporter
-      .sendMail(message)
-      .then(() => {
-        return res
-          .status(200)
-          .json({ msg: "Email de autenticación" });
-    }).catch((error) => console.error(error));
-    res.redirect("/users/signin");
-   }
-    
-  }).catch((err)=>{
-    console.log(err);
-  });
+    const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
 
-  
-});
-
-mongoose.connection.db.collection('users', function(err, collection){
-  collection.findOne({r2:answer}).then((result)=>{
-    if (result != null){
-      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-      var token = String.fromCharCode(t1, t2, t3, t4);
-  
-      var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'ServicioDeAutenticacion@gmail.com',
-            pass: 'authservice'
-        }
+    mongoose.connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
       });
-    
-      let message = {
-        from: 'ServicioDeAutenticacion@gmail.com',
-        to: req.body.email,
-        subject: "Recuperación de token",
-        text: 'Su nuevo token de acceso es: '+token,
-      };
-    
-      transporter
-        .sendMail(message)
-        .then(() => {
-          return res
-            .status(200)
-            .json({ msg: "Email de autenticación" });
-      }).catch((error) => console.error(error));
-     res.redirect("/users/signin");
-    }
-  }).catch((err)=>{
-    console.log(err);
-  });
 
-  res.redirect("/users/signin");
-  
-});
+      var query = {};
+      query[resp] = answer;
 
-mongoose.connection.db.collection('users', function(err, collection){
-  collection.findOne({r3:answer}).then((result)=>{
-    
-    if (result != null){
-      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
-    var token = String.fromCharCode(t1, t2, t3, t4);
+    mongoose.connection.db.collection('users', function(err, collection){
+      collection.findOne(query).then(async (result)=>{
+      if (result != null){
+        
+        var t1 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+        var t2 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+        var t3 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+        var t4 = Math.floor(Math.random() * (90 -65 + 1) + 65);
+        var token = String.fromCharCode(t1, t2, t3, t4);
 
-    var transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-          user: 'ServicioDeAutenticacion@gmail.com',
-          pass: 'authservice'
+        var transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+              user: 'ServicioDeAutenticacion@gmail.com',
+              pass: 'authservice'
+          }
+        });
+      
+        let message = {
+          from: 'ServicioDeAutenticacion@gmail.com',
+          to: req.body.email,
+          subject: "Recuperación de Token",
+          text: 'Su nuevo token de acceso es: '+token,
+        };
+        
+
+        const  inputmail  = req.body.email;
+        const emailUser = await User.findOne({ email: inputmail });
+
+        const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+          mongoose.connect(MONGODB_URI, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        });
+
+        mongoose.connection.db.collection('users',function(err,collection){
+          ({ _id: emailUser._id}, {$set:{"token": token}});
+          collection.updateOne({ _id: emailUser._id}, {$set:{"token": token}});
+        });
+
+        transporter
+          .sendMail(message)
+          .then(() => {
+            return res
+              .status(200)
+              .json({ msg: "Email de autenticación" });
+        }).catch((error) => console.error(error));
+        req.flash("warning_msg", "Se ha enviado un nuevo token a su correo en caso de que sus credenciales sean correctas");
+        res.redirect("/users/signin");
+      }else{
+        req.flash("warning_msg", "Se ha enviado un nuevo token en caso de que sus credenciales sean correctas");
+        res.redirect("/users/signin");
       }
+        
+      }).catch((err)=>{
+        console.log(err);
+      });
     });
-  
-    let message = {
-      from: 'ServicioDeAutenticacion@gmail.com',
-      to: req.body.email,
-      subject: "Recuperación de Token",
-      text: 'Su nuevo token de acceso es: '+token,
-    };
-  
-    transporter
-      .sendMail(message)
-      .then(() => {
-        return res
-          .status(200)
-          .json({ msg: "Email de autenticación" });
-    }).catch((error) => console.error(error));
-      res.redirect("/users/signin");
-    }
-  }).catch((err)=>{
-    console.log(err);
-  });
-
-  
-});
- 
-
-
+  }
 }
+
 
 usersCtrl.singup = async (req, res) => {
   let errors = [];
@@ -351,23 +302,95 @@ usersCtrl.signin = (req, res) => {
 
 
 usersCtrl.secQuest = (req, res) => {
-const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-var cb;
-const  inputmail  = req.body.email;
-mongoose.connection.db.collection('users', function(err, collection){
-  collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
-    if(err) throw res.redirect("/users/signin");
-    console.log(result[0].pr1);
-    var number = Math.floor(Math.random() * 3) + 1;
-    var expresion = 'result[0].pr' + number.toString();
-   
-    res.render("users/secretQuest", {pregunta: eval(expresion), email: inputmail}); 
-  });
-});
+
+  let errors = [];
+  const { email, password } = req.body;
+
+  //errors
+  
+  if (email == '') {
+    errors.push({ text: "El campo correo está vacío." });
+  }
+  //reset field after error render
+  if (errors.length > 0) {
+    res.render("users/recoverToken", {
+      errors,
+      email
+    });
+  }else{
+    const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+    mongoose.connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+    var cb;
+    const  inputmail  = req.body.email;
+    mongoose.connection.db.collection('users', function(err, collection){
+      collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
+        if(err) throw res.redirect("/users/signin");
+        console.log(result[0].pr1);
+        var number = Math.floor(Math.random() * 3) + 1;
+        var expresion = 'result[0].pr' + number.toString();
+      
+        res.render("users/secretQuest", {pregunta: eval(expresion), email: inputmail}); 
+      });
+    });
+  }
+
+}
+
+
+usersCtrl.secQuestT = (req, res) => {
+
+  let errors = [];
+  const { email} = req.body;
+
+  //errors
+  
+  if (email == '') {
+    errors.push({ text: "El campo correo está vacío." });
+  }
+  //reset field after error render
+  if (errors.length > 0) {
+    res.render("users/recoverToken", {
+      errors,
+      email
+    });
+  }else{
+    const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+    mongoose.connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+    const  inputmail  = req.body.email;
+    mongoose.connection.db.collection('users',async function(err, collection){
+      
+      //test if exist
+      var search = await collection.findOne({email:inputmail});
+      
+
+      if(!search){
+
+        errors.push({ text: "El correo electrónico no existe" });
+        res.render("users/recoverToken", {
+          errors,
+          email
+        });
+
+      }else{
+        collection.find({email:inputmail},{pr1:0}).toArray(function(err, result){
+          if(err) throw res.redirect("/users/signin");
+          var number = Math.floor(Math.random() * 3) + 1;
+          var expresion = 'result[0].pr' + number.toString();
+        
+          res.render("users/secretQuestT", {pregunta: eval(expresion), email: inputmail, number}); 
+        });
+      }
+
+
+    });
+  }
+
 }
 
 
@@ -376,7 +399,8 @@ usersCtrl.recPass = (req, res) => {
 };
 
 usersCtrl.recToken = (req, res) => {
-  res.render("users/recoverToken");
+  var email = req.body.email;
+  res.render("users/recoverToken", {email: email});
 };
 
 
@@ -437,13 +461,13 @@ usersCtrl.logout = async (req, res) => {
   });
 
   mongoose.connection.db.collection('users',function(err,collection){
-    ({ _id: emailUser._id}, {$set:{"token": token}});
+    
     collection.updateOne({ _id: emailUser._id}, {$set:{"token": token}});
   });
   
 
   req.logout();
-  req.flash("success_msg", "Has cerrado sesión con exito.");
+  req.flash("success_msg", "Has cerrado sesión con exito, tu nuevo token ha sido enviado a tu correo electrónico");
  
   res.redirect("/users/signin");
 };

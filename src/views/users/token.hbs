@@ -23,7 +23,7 @@
                 </div>
 
                 <h1 class="h6 text-center text-justify">
-                    Haga clic sobre el <a href="#panel">panel de ingreso</a> para dibujar lineas y puntos 
+                    Haga clic sobre el <a href="#codigos">panel de ingreso</a> para dibujar lineas y puntos 
                 </h1>
                 <h1 class="h6 text-center text-justify">
                     Debe ingresar su token una letra a la vez según los <a href="#codigos">códigos de muestra</a>
@@ -35,7 +35,7 @@
                 <div class="form-group  mb-2">
                     <p class="text-center mb-1">CLICK PARA IR AL PANEL</p>
                 </div>
-                <a href="#panel">
+                <a href="#codigos">
                   <img src="/img/cursor.PNG" class="centerrr">
                 </a>
                 
@@ -95,7 +95,7 @@
           
           <form action="/users/token" method="POST">
             <input type="hidden" id="hidemail" name="email" value={{email}}>
-            <input type="hidden" id="hidpassword" name="password" value={{password}}>
+            <input type="hidden" id="hidpusers/tokenassword" name="password" value={{password}}>
             <input type="hidden" id="hidtoken" name="token" value="">
 
             <button class="btn shadow-sm yButton btn-lg btn-block mt-3">
@@ -106,7 +106,7 @@
 
           <div class="text-center">
           <label class="mt-4">
-          <a class="link h5 " href="/users/signup">¿Olvidaste tu token?</a>
+          <a class="link h5 " href="/users/recoverToken">¿Olvidaste tu token?</a>
           </div>
           </div>
           </div>
