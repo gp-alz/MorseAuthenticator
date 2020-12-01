@@ -182,12 +182,29 @@ usersCtrl.renderSigninForm = (req, res) => {
 
 
 
-usersCtrl.signin = (req, res) => {
 
+let errors = [];
+const { email, password } = req.body;
+
+//errors
+
+if (email == '') {
+  errors.push({ text: "El campo correo está vacío." });
+}
+if (password == '') {
+  errors.push({ text: "El campo contraseña está vacío." });
+}
+//reset field after error render
+if (errors.length > 0) {
+  res.render("users/signin", {
+    errors,
+    email, 
+    password
+  });
+}else{
   const { email, password} = req.body;
   res.render("users/token",  {email, password});
-
-};
+}
 
 
 usersCtrl.secQuest = (req, res) => {
