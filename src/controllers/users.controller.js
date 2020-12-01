@@ -14,6 +14,146 @@ usersCtrl.renderSignUpForm = (req, res) => {
   res.render('users/signup');
 };
 
+usersCtrl.recoverToken = (req,res) =>{
+  console.log("Testing ....");
+  var email = req.body.email;
+  var answer = req.body.answer;
+  const MONGODB_URI = `mongodb://localhost:27017/tareas}`;
+
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+
+
+mongoose.connection.db.collection('users', function(err, collection){
+  collection.findOne({r1:answer}).then((result)=>{
+   if (result != null){
+    
+    var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var token = String.fromCharCode(t1, t2, t3, t4);
+
+    var transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+          user: 'ServicioDeAutenticacion@gmail.com',
+          pass: 'authservice'
+      }
+    });
+  
+    let message = {
+      from: 'ServicioDeAutenticacion@gmail.com',
+      to: req.body.email,
+      subject: "Recuperación de Token",
+      text: 'Su nuevo token de acceso es: '+token,
+    };
+  
+    transporter
+      .sendMail(message)
+      .then(() => {
+        return res
+          .status(200)
+          .json({ msg: "Email de autenticación" });
+    }).catch((error) => console.error(error));
+    res.redirect("/users/signin");
+   }
+    
+  }).catch((err)=>{
+    console.log(err);
+  });
+
+  
+});
+
+mongoose.connection.db.collection('users', function(err, collection){
+  collection.findOne({r2:answer}).then((result)=>{
+    if (result != null){
+      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+      var token = String.fromCharCode(t1, t2, t3, t4);
+  
+      var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'ServicioDeAutenticacion@gmail.com',
+            pass: 'authservice'
+        }
+      });
+    
+      let message = {
+        from: 'ServicioDeAutenticacion@gmail.com',
+        to: req.body.email,
+        subject: "Recuperación de token",
+        text: 'Su nuevo token de acceso es: '+token,
+      };
+    
+      transporter
+        .sendMail(message)
+        .then(() => {
+          return res
+            .status(200)
+            .json({ msg: "Email de autenticación" });
+      }).catch((error) => console.error(error));
+     res.redirect("/users/signin");
+    }
+  }).catch((err)=>{
+    console.log(err);
+  });
+
+  res.redirect("/users/signin");
+  
+});
+
+mongoose.connection.db.collection('users', function(err, collection){
+  collection.findOne({r3:answer}).then((result)=>{
+    
+    if (result != null){
+      var t1 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t2 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t3 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var t4 = Math.floor(Math.random() * (90 -64 + 1) + 64);
+    var token = String.fromCharCode(t1, t2, t3, t4);
+
+    var transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+          user: 'ServicioDeAutenticacion@gmail.com',
+          pass: 'authservice'
+      }
+    });
+  
+    let message = {
+      from: 'ServicioDeAutenticacion@gmail.com',
+      to: req.body.email,
+      subject: "Recuperación de Token",
+      text: 'Su nuevo token de acceso es: '+token,
+    };
+  
+    transporter
+      .sendMail(message)
+      .then(() => {
+        return res
+          .status(200)
+          .json({ msg: "Email de autenticación" });
+    }).catch((error) => console.error(error));
+      res.redirect("/users/signin");
+    }
+  }).catch((err)=>{
+    console.log(err);
+  });
+
+  
+});
+ 
+
+
+}
+
 usersCtrl.singup = async (req, res) => {
   let errors = [];
   const { ced, name, lastname, user, email, password, confirm_password, 
@@ -225,7 +365,7 @@ mongoose.connection.db.collection('users', function(err, collection){
     var number = Math.floor(Math.random() * 3) + 1;
     var expresion = 'result[0].pr' + number.toString();
    
-    res.render("users/secretQuest", {pregunta: eval(expresion)}); 
+    res.render("users/secretQuest", {pregunta: eval(expresion), email: inputmail}); 
   });
 });
 }
